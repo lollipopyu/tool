@@ -10,7 +10,7 @@ const nav = r => require.ensure([], () => r(require('@/pages/nav')), 'nav');
 export default new Router({
   routes: [
   	{
-  	  	path: '/',
+  	  	path: '/', 
         redirect: '/manage'
   	},
     {
