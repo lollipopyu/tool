@@ -6,8 +6,10 @@ Vue.use(Router)
 const manage = r => require.ensure([], () => r(require('@/pages/manage')), 'manage');
 const form = r => require.ensure([], () => r(require('@/pages/form')), 'form');
 const nav = r => require.ensure([], () => r(require('@/pages/nav')), 'nav');
+const add = r => require.ensure([], () => r(require('@/pages/form/add')), 'add');
 
 export default new Router({
+  mode:'history',
   routes: [
   	{
   	  	path: '/', 
@@ -27,6 +29,10 @@ export default new Router({
     			component: nav,
     			name: '导航',
           meta:{nav:['导航二']},
+        },
+        {
+          path: '/add',
+          component: add,
         }]
     }
   ]
