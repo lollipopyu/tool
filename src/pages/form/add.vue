@@ -16,16 +16,18 @@
 <template>
 	<div class="add-page">
 		<el-row>
-		  <el-col :span="3" class="sideBar">
+		  <el-col :span="4" class="sideBar">
 		  	<el-collapse>
-		  	  <el-collapse-item v-for="(title,index) in titles" :title="title" :name="index">
+		  	  <el-collapse-item :key="classIndex" v-for="(controlClass,classIndex) in controlClazzes" :title="controlClass.name" :name="classIndex">
 		  	    <ul>
-		  	    	<li v-for="item in items[index]">{{item}}</li>
+		  	    	<li v-for="(control,controlIndex) in controlClass.controls">
+		  	    		{{control.name}}
+		  	    	</li>
 		  	    </ul>
 		  	  </el-collapse-item>
 		  	</el-collapse>
 		  </el-col>
-		  <el-col :span="17">
+		  <el-col :span="16">
 		  </el-col>
 		  <el-col :span="4">
 		  </el-col>
@@ -35,6 +37,10 @@
 </template>
 <script>
 	import {mapGetters, mapMutations, mapActions} from 'vuex'
+	import mock from '@/mock/data.js'
+	import {getControlList} from  '@/resource/develop_resource'
+	import {makeControl} from '@/helper/code_helper'
+
 	export default{
 		data(){
 			return{
@@ -46,8 +52,55 @@
 			//实例化数据
 			// this.items = [{r:"Row",c:"Col",d:"Card"},{i:"Input",s:"Select",r:"Radio",c:"Checkbox",d:"DatePicker",t:"TimePicker",i:"InputNumber",f:"Form",b:"Button"},{t:"Table",p:"Page"}];
 			// this.titles = ["Layout","Form","View"];
-			console.log(1111);
+			
 			this.getControlClazzes();
+			//call的用法?
+			getControlList.call(this,(data) => {
+
+				let draggableControls = []
+
+				console.log("所有的组件的数据",data);
+
+				//拆分后的data数据存入draggableControls数组中
+				data.forEach(origin => {
+				  let control = makeControl(origin.code);
+
+				  console.log("拆分重组后的数据",control);
+
+				  control.clazzId = origin.clazzId
+
+				  draggableControls.push(control)
+				})
+
+				//classify draggableControls
+				//分类，给layout下5个组件，form下11个组件...
+				let map = {}
+				draggableControls.forEach(item => {
+				  if (!map[item.clazzId]) {
+				    map[item.clazzId] = []
+				  }
+
+				  map[item.clazzId].push(item)
+				});
+				console.log('map',map);
+
+				/**
+				 *controlClazzes这个是获取layout、form标题的数据源,
+				 *给controlClazzes数组中的每一个对象添加controls属性
+				*/
+				
+				this.controlClazzes.forEach(clazz => {
+				  let controls = map[clazz.id]
+				  console.log(2222222,controls) 
+				  if (controls) {
+				  	//给clazz对象添加属性controls
+				  	//值是数组(如layout下有5个)
+				    clazz.controls = controls
+				    
+				  }
+				})
+				console.log("controlClazzes",this.controlClazzes)
+			});		
 		},
 		computed: {
 			...mapGetters('dragModule', ['controlClazzes'])

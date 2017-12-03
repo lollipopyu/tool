@@ -11,7 +11,6 @@ export default {
 	},
 	actions: {
 	  getControlClazzes({state}){
-	  	console.log(this.$http)
 	    Vue.axios.post(baseUrl+'classList').then(res => {
 	      if (res.data.code === 10000) {
 	        state.controlClazzes = res.data.data
