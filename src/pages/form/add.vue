@@ -16,16 +16,18 @@
 <template>
 	<div class="add-page">
 		<el-row>
-		  <el-col :span="4" class="sideBar">
+		  <el-col :span="3" class="sideBar">
 		  	<el-collapse>
 		  	  <el-collapse-item v-for="(title,index) in titles" :title="title" :name="index">
 		  	    <ul>
-		  	    	<li v-for="item in items">{{item}}</li>
+		  	    	<li v-for="item in items[index]">{{item}}</li>
 		  	    </ul>
 		  	  </el-collapse-item>
 		  	</el-collapse>
 		  </el-col>
-		  <el-col :span="20">
+		  <el-col :span="17">
+		  </el-col>
+		  <el-col :span="4">
 		  </el-col>
 		</el-row>
 		
@@ -41,7 +43,7 @@
 		},
 		mounted(){
 			//实例化数据
-			this.items = ["文本框","日期","输入框","下拉框"];
+			this.items = [{r:"Row",c:"Col",d:"Card"},{i:"Input",s:"Select",r:"Radio",c:"Checkbox",d:"DatePicker",t:"TimePicker",i:"InputNumber",f:"Form",b:"Button"},{t:"Table",p:"Page"}];
 			this.titles = ["Layout","Form","View"];
 		}
 	}
