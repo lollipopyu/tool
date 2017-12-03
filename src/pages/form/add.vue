@@ -34,6 +34,7 @@
 	</div>
 </template>
 <script>
+	import {mapGetters, mapMutations, mapActions} from 'vuex'
 	export default{
 		data(){
 			return{
@@ -43,8 +44,16 @@
 		},
 		mounted(){
 			//实例化数据
-			this.items = [{r:"Row",c:"Col",d:"Card"},{i:"Input",s:"Select",r:"Radio",c:"Checkbox",d:"DatePicker",t:"TimePicker",i:"InputNumber",f:"Form",b:"Button"},{t:"Table",p:"Page"}];
-			this.titles = ["Layout","Form","View"];
+			// this.items = [{r:"Row",c:"Col",d:"Card"},{i:"Input",s:"Select",r:"Radio",c:"Checkbox",d:"DatePicker",t:"TimePicker",i:"InputNumber",f:"Form",b:"Button"},{t:"Table",p:"Page"}];
+			// this.titles = ["Layout","Form","View"];
+			console.log(1111);
+			this.getControlClazzes();
+		},
+		computed: {
+			...mapGetters('dragModule', ['controlClazzes'])
+		},
+		methods: {
+			...mapActions('dragModule', ['getControlClazzes'])
 		}
 	}
 </script>
