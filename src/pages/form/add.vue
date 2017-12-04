@@ -48,12 +48,14 @@
 				titles:[]
 			}
 		},
-		mounted(){
+		async mounted(){
 			//实例化数据
 			// this.items = [{r:"Row",c:"Col",d:"Card"},{i:"Input",s:"Select",r:"Radio",c:"Checkbox",d:"DatePicker",t:"TimePicker",i:"InputNumber",f:"Form",b:"Button"},{t:"Table",p:"Page"}];
 			// this.titles = ["Layout","Form","View"];
 			
-			this.getControlClazzes();
+			await this.getControlClazzes();
+			console.log(1111111111)
+
 			//call的用法?
 			getControlList.call(this,(data) => {
 
@@ -88,15 +90,18 @@
 				 *controlClazzes这个是获取layout、form标题的数据源,
 				 *给controlClazzes数组中的每一个对象添加controls属性
 				*/
-				
+				let vm = this;
+				console.log(111, this.controlClazzes);
 				this.controlClazzes.forEach(clazz => {
 				  let controls = map[clazz.id]
-				  console.log(2222222,controls) 
+				   
 				  if (controls) {
 				  	//给clazz对象添加属性controls
 				  	//值是数组(如layout下有5个)
-				    clazz.controls = controls
-				    
+				    // clazz.controls = controls
+				    // set可以触发视图
+				    vm.$set(clazz, 'controls', controls);
+				    console.log(2222222,controls)
 				  }
 				})
 				console.log("controlClazzes",this.controlClazzes)
@@ -107,6 +112,7 @@
 		},
 		methods: {
 			...mapActions('dragModule', ['getControlClazzes'])
-		}
+		},
+
 	}
 </script>
