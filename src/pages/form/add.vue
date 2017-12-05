@@ -40,12 +40,14 @@
 	import mock from '@/mock/data.js'
 	import {getControlList} from  '@/resource/develop_resource'
 	import {makeControl} from '@/helper/code_helper'
+	import{init, saveSoul}from '@/core/assemble'
 
 	export default{
 		data(){
 			return{
 				items:[],
-				titles:[]
+				titles:[],
+				pageSoulId: '',
 			}
 		},
 		async mounted(){
@@ -53,6 +55,8 @@
 			// this.items = [{r:"Row",c:"Col",d:"Card"},{i:"Input",s:"Select",r:"Radio",c:"Checkbox",d:"DatePicker",t:"TimePicker",i:"InputNumber",f:"Form",b:"Button"},{t:"Table",p:"Page"}];
 			// this.titles = ["Layout","Form","View"];
 			
+			// await可以保证getControlClazzes请求执行完再继续执行
+			this.pageSoulId = this.$route.query.pageSoulId
 			await this.getControlClazzes();
 			console.log(1111111111)
 
@@ -63,11 +67,11 @@
 
 				console.log("所有的组件的数据",data);
 
-				//拆分后的data数据存入draggableControls数组中
+				// draggableControls是存入重组后的组件数组
 				data.forEach(origin => {
 				  let control = makeControl(origin.code);
 
-				  console.log("拆分重组后的数据",control);
+				  console.log("拆分重组后的组件数据",control);
 
 				  control.clazzId = origin.clazzId
 
@@ -104,13 +108,24 @@
 				    console.log(2222222,controls)
 				  }
 				})
-				console.log("controlClazzes",this.controlClazzes)
+				
+				//store draggableControls
+				this.setDraggableControls(draggableControls);
+
+				if (!this.pageSoulId) {
+					//when add new page
+					init(draggableControls)
+					saveSoul()
+				}
+
+				this.setShowCode(false)
 			});		
 		},
 		computed: {
 			...mapGetters('dragModule', ['controlClazzes'])
 		},
 		methods: {
+			...mapMutations('dragModule', ['setDraggableControls']),
 			...mapActions('dragModule', ['getControlClazzes'])
 		},
 
