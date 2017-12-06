@@ -28,7 +28,7 @@
 		  	</el-collapse>
 		  </el-col>
 		  <el-col :span="16" class="middle">
-		  	<RenderDev v-if="!showCode"></RenderDev>
+		  	<RenderDev v-if="!showCode" :soul="soul"></RenderDev>
 		  </el-col>
 		  <el-col :span="4">
 		  </el-col>

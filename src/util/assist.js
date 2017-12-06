@@ -7,6 +7,16 @@ export function stringify(obj) {
   });
 }
 
+//非负整数
+export function isNumber(obj) {
+  const reg = /^-?\d+$/
+  return reg.test(obj)
+}
+
+export function isPlain(obj) {
+  return JSON.stringify(obj) === "{}"
+}
+
 // deepCopy
 function deepCopy(data) {
   const t = typeOf(data);
@@ -32,6 +42,8 @@ function deepCopy(data) {
   return o;
 }
 
+export {deepCopy};
+
 export function typeOf(obj) {
   const toString = Object.prototype.toString;
   const map = {
@@ -49,4 +61,3 @@ export function typeOf(obj) {
   return map[toString.call(obj)];
 }
 
-export {deepCopy};

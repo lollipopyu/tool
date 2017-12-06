@@ -30,6 +30,20 @@ function init(draggableControls) {
 	store.commit('dragModule/setSoul', copy)
 }
 
+function drop(saveInfo) {
+  if (templateStore.count < templateStore.dataSnapshot.length) {
+    //撤销操作后新增元素则丢弃当前版本后的节点
+    templateStore.dataSnapshot = templateStore.dataSnapshot.slice(0, templateStore.count)
+  }
+
+  saveInfo.drop.children.push(saveInfo.drag)
+  let soul = store.getters['dragModule/soul']
+  templateStore.dataSnapshot[templateStore.count] = deepCopy(soul)
+  templateStore.count++
+
+  localStorage.setItem("templateStore", stringify(templateStore));
+}
+
 // 把soul里面的组件保存到localStorage中
 function saveSoul() {
 
@@ -39,6 +53,7 @@ function saveSoul() {
 	localStorage.setItem("templateStore", stringify(templateStore));
 }
 export {
+	drop,
   init,
   saveSoul
 }

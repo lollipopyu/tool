@@ -5,12 +5,14 @@ export default {
 	namespaced: true,
 	state: {
 		soul: null, //the view data of current routerPath
+		dragElement: null,//current dragging element
 		controlClazzes: [],//left side controls in assemble factory
 		draggableControls: null, // 左边栏的所有组件
 		showCode:false
 	},
 	getters: {
 		soul: ({soul}) => soul,
+		dragElement: ({dragElement}) => dragElement,
 		controlClazzes: ({controlClazzes}) => controlClazzes,
 		draggableControls: ({draggableControls}) => draggableControls,
 		showCode:({showCode})=>showCode,
@@ -24,6 +26,9 @@ export default {
 		},
 		setShowCode:(state,showCode)=>{
 		    state.showCode = showCode
+		},
+		setDragElement(state, element){
+		  state.dragElement = element
 		} 
 	},
 	actions: {
