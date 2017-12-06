@@ -7,7 +7,7 @@ import{
 } from '@/util/assist'
 import {
 	generateUid,
-    findSoulByCid
+  findSoulByCid
 } from '@/helper/soul_helper'
 
 let templateStore = {

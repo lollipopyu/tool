@@ -27,7 +27,8 @@
 		  	  </el-collapse-item>
 		  	</el-collapse>
 		  </el-col>
-		  <el-col :span="16">
+		  <el-col :span="16" class="middle">
+		  	<RenderDev v-if="!showCode"></RenderDev>
 		  </el-col>
 		  <el-col :span="4">
 		  </el-col>
@@ -60,7 +61,7 @@
 			await this.getControlClazzes();
 			console.log(1111111111)
 
-			//call的用法?
+			//call的用法
 			getControlList.call(this,(data) => {
 
 				let draggableControls = []
@@ -122,10 +123,10 @@
 			});		
 		},
 		computed: {
-			...mapGetters('dragModule', ['controlClazzes'])
+			...mapGetters('dragModule', ['soul','controlClazzes','draggableControls','showCode'])
 		},
 		methods: {
-			...mapMutations('dragModule', ['setDraggableControls']),
+			...mapMutations('dragModule', ['setSoul','setDraggableControls','setShowCode']),
 			...mapActions('dragModule', ['getControlClazzes'])
 		},
 
