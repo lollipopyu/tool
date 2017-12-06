@@ -28,6 +28,7 @@
 		  	</el-collapse>
 		  </el-col>
 		  <el-col :span="16">
+		  	<RenderDev v-if="!showCode" :soul="soul"></RenderDev>
 		  </el-col>
 		  <el-col :span="4">
 		  </el-col>
@@ -60,7 +61,7 @@
 			await this.getControlClazzes();
 			console.log(1111111111)
 
-			//call的用法?
+			//call的用法
 			getControlList.call(this,(data) => {
 
 				let draggableControls = []
@@ -105,7 +106,6 @@
 				    // clazz.controls = controls
 				    // set可以触发视图
 				    vm.$set(clazz, 'controls', controls);
-				    console.log(2222222,controls)
 				  }
 				})
 				
@@ -122,10 +122,10 @@
 			});		
 		},
 		computed: {
-			...mapGetters('dragModule', ['controlClazzes'])
+			...mapGetters('dragModule', ['controlClazzes','showCode','soul'])
 		},
 		methods: {
-			...mapMutations('dragModule', ['setDraggableControls']),
+			...mapMutations('dragModule', ['setDraggableControls', 'setShowCode']),
 			...mapActions('dragModule', ['getControlClazzes'])
 		},
 

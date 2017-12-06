@@ -7,7 +7,7 @@ export default {
 		soul: null, //the view data of current routerPath
 		controlClazzes: [],//left side controls in assemble factory
 		draggableControls: null, // 左边栏的所有组件
-		showCode:false,
+		showCode:false, //是否展示代码
 	},
 	getters: {
 		soul: ({soul}) => soul,
