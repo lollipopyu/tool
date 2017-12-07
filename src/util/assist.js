@@ -49,4 +49,14 @@ export function typeOf(obj) {
   return map[toString.call(obj)];
 }
 
+//非负整数
+export function isNumber(obj) {
+  const reg = /^-?\d+$/
+  return reg.test(obj)
+}
+
+export function isPlain(obj) {
+  return JSON.stringify(obj) === "{}"
+}
+
 export {deepCopy};
