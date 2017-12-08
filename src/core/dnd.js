@@ -171,3 +171,6 @@ export {
   initDropEvents,
   interceptDrop
 }
+
+//onDragStart,onDrag,onDragEnd--源对象(被拖拽对象)可绑定此3个事件
+//onDragEnter,onDragOver,onDrop,onDragLeave--目标对象(释放区域)可绑定此4个事件

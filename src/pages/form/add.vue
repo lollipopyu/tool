@@ -19,11 +19,19 @@
 		  <el-col :span="4" class="sideBar">
 		  	<el-collapse>
 		  	  <el-collapse-item :key="classIndex" v-for="(controlClass,classIndex) in controlClazzes" :title="controlClass.name" :name="classIndex">
-		  	    <ul>
+		  	    <!-- <ul>
 		  	    	<li v-for="(control,controlIndex) in controlClass.controls">
 		  	    		{{control.name}}
 		  	    	</li>
-		  	    </ul>
+		  	    </ul> -->
+		  	    <Control
+		  	      v-for="(control,controlIndex) in controlClass.controls"
+		  	      :controlConfig="control"
+		  	      :key="controlIndex">
+		  	      <div slot="preview">
+		  	        {{control.name}}
+		  	      </div>
+		  	    </Control>
 		  	  </el-collapse-item>
 		  	</el-collapse>
 		  </el-col>

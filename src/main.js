@@ -10,6 +10,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import SoulUi from "./plugin/install_component"
 import installDirective from "./plugin/install_directive"//don't delete,let vue install
+import './style/index.scss'
 
 Vue.use(VueAxios, axios)
 Vue.use(SoulUi)

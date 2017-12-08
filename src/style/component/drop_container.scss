@@ -1,0 +1,105 @@
+@mixin makeContainer(){
+  min-height: 40px;
+  transition:  box-shadow $transition-time linear;
+  padding: 10px;
+  border: 1px dashed #339ae2;
+
+  //make drop be visible
+  & .drop {
+    box-shadow: 2px 2px 2px 2px #888888 inset;
+  }
+  &.drop {
+    box-shadow: 2px 2px 2px 2px #888888 inset;
+  }
+}
+.soul-drop-panel{
+  width:100%;
+  height: 100%;
+
+  .is-preview &{
+    transition:  box-shadow $transition-time linear;
+    position: relative;
+    @include makeContainer();
+  }
+
+
+  .is-preview > &{
+    @include makeContainer();
+    border: none;
+    height:800px;
+    padding: 0;
+  }
+
+  .layout-scroll > &{
+    height:800px;
+  }
+
+  &  [class^="ivu-row"]{
+    .is-preview &{
+      @include makeContainer();
+    }
+  }
+
+  & [class^="ivu-col"]{
+    .is-preview &{
+      @include makeContainer();
+    }
+  }
+
+  & .ivu-form{
+    min-height: 60px;
+    .is-preview &{
+      @include makeContainer();
+    }
+  }
+
+  & .ivu-form-item{
+    .is-preview &{
+      @include makeContainer();
+    }
+  }
+
+  & .ivu-radio-group,
+  & .ivu-checkbox-group,
+  & .ivu-tabs{
+    min-height: 40px;
+      width: 100%;
+    .is-preview &{
+      @include makeContainer();
+    }
+  }
+
+  & .ivu-tabs-tabpane{
+    min-height: 40px;
+    .is-preview &{
+      @include makeContainer();
+    }
+  }
+
+  & .ivu-card-head{
+    .is-preview &{
+      @include makeContainer();
+    }
+  }
+  & .ivu-card-extra{
+    .is-preview &{
+      @include makeContainer();
+    }
+  }
+  & .ivu-card-body{
+    .is-preview &{
+      @include makeContainer();
+      padding: 20px;
+    }
+}
+}
+
+.is-preview  .ivu-card-extra .soul-drop-panel{
+  min-height:100px;
+}
+
+
+
+
+
+

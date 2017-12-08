@@ -45,9 +45,28 @@ function walkSoul(soul, fn) {
   })
 }
 
+function findSoulByUidDown(uid, soul) {
+  if (!soul) {
+    soul = store.getters['dragModule/soul']
+  }
+
+  if (uid === soul.uid) {
+    return soul
+  }
+
+  let node;
+  for (let i = 0; i < soul.children.length; i++) {
+    node = findSoulByUidDown(uid, soul.children[i])
+    if (node) {
+      return node;
+    }
+  }
+}
+
 export {
   generateUid,
   findSoulByCid,
+  findSoulByUidDown,
   walkSoul,
   getFormItemParams,
   refs

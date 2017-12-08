@@ -8,9 +8,11 @@ export default {
 		controlClazzes: [],//left side controls in assemble factory
 		draggableControls: null, // 左边栏的所有组件
 		showCode:false, //是否展示代码
+		dragElement: null,//current dragging element
 	},
 	getters: {
 		soul: ({soul}) => soul,
+		dragElement: ({dragElement}) => dragElement,
 		controlClazzes: ({controlClazzes}) => controlClazzes,
 		draggableControls: ({draggableControls}) => draggableControls,
 		showCode:({showCode})=>showCode,
@@ -24,7 +26,10 @@ export default {
 		},
 		setShowCode:(state,showCode)=>{
 		    state.showCode = showCode
-		} 
+		},
+		setDragElement(state, element){
+		    state.dragElement = element
+		},
 	},
 	actions: {
 	  getControlClazzes({state}){
