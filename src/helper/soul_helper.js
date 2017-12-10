@@ -45,6 +45,7 @@ function walkSoul(soul, fn) {
   })
 }
 
+//返回dropPanel中的children数组中的所有源对象
 function findSoulByUidDown(uid, soul) {
   if (!soul) {
     soul = store.getters['dragModule/soul']

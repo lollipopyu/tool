@@ -11,9 +11,12 @@ import VueAxios from 'vue-axios'
 import SoulUi from "./plugin/install_component"
 import installDirective from "./plugin/install_directive"//don't delete,let vue install
 import './style/index.scss'
+import iView from 'iview';
+import 'iview/dist/styles/iview.css';
 
 Vue.use(VueAxios, axios)
 Vue.use(SoulUi)
+Vue.use(iView);
 
 
 Vue.config.productionTip = false

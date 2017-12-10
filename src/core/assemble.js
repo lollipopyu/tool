@@ -44,7 +44,7 @@ function drop(saveInfo) {
     //撤销操作后新增元素则丢弃当前版本后的节点
     templateStore.dataSnapshot = templateStore.dataSnapshot.slice(0, templateStore.count)
   }
-
+  //把drag组件放到drop中(children是数组)
   saveInfo.drop.children.push(saveInfo.drag)
   let soul = store.getters['dragModule/soul']
   templateStore.dataSnapshot[templateStore.count] = deepCopy(soul)

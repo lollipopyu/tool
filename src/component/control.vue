@@ -18,6 +18,8 @@
       controlConfig: [Object],
     },
     mounted(){
+      //通过this.$el找到了真实dom-->soul-drag-control
+      //类似于jquery的$('.soul-drag-control')
       this.$el.controlConfig = this.controlConfig
       this.$el.setAttribute('draggable', true)
       this.$el.ondragstart = onDragStart

@@ -1,11 +1,13 @@
 //该插件的作用：把组件全局化
 import {
   	Control,
+  	ModelEditor,
   	RenderDev
 } from '../component'
 
 const soul = {
 	Control,
+	ModelEditor,
   	RenderDev
 };
 

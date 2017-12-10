@@ -1,3 +1,4 @@
+//中间区域渲染的源头
 import store from '../store/index'
 import eventCenter from '../core/event'
 import {
@@ -20,7 +21,6 @@ export default {
     h.store = store
     h.eventCenter = eventCenter
     eventCenter.createElement = h
-    console.log(this.soul.render)
     return this.soul.render(h)
   }
 }

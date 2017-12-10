@@ -15,32 +15,40 @@
 </style>
 <template>
 	<div class="add-page">
-		<el-row>
-		  <el-col :span="4" class="sideBar">
-		  	<el-collapse>
-		  	  <el-collapse-item :key="classIndex" v-for="(controlClass,classIndex) in controlClazzes" :title="controlClass.name" :name="classIndex">
-		  	    <!-- <ul>
-		  	    	<li v-for="(control,controlIndex) in controlClass.controls">
-		  	    		{{control.name}}
-		  	    	</li>
-		  	    </ul> -->
-		  	    <Control
-		  	      v-for="(control,controlIndex) in controlClass.controls"
-		  	      :controlConfig="control"
-		  	      :key="controlIndex">
-		  	      <div slot="preview">
-		  	        {{control.name}}
-		  	      </div>
-		  	    </Control>
-		  	  </el-collapse-item>
-		  	</el-collapse>
-		  </el-col>
-		  <el-col :span="16">
+		<Row>
+		  <i-col span="3">
+		    <transition name="index-soul-control-class-fade">
+		      <div>
+		        <Collapse v-model="open" :key="classIndex" v-for="(controlClass, classIndex) in controlClazzes">
+		          <Panel :name="classIndex+1+''">
+		            {{controlClass.name}}
+		            <p slot="content" class="index-layout-content__class">
+		              <Control
+		                v-for="(control,controlIndex) in controlClass.controls"
+		                :controlConfig="control"
+		                :key="controlIndex">
+		                <div slot="preview">
+		                  <MenuItem
+		                    :name="classIndex + '-' + controlIndex">{{control.name}}
+		                  </MenuItem>
+		                </div>
+		              </Control>
+		            </p>
+		          </Panel>
+		        </Collapse>
+		      </div>
+		    </transition>
+		  </i-col>
+		  <i-col :span="17">
 		  	<RenderDev v-if="!showCode" :soul="soul"></RenderDev>
-		  </el-col>
-		  <el-col :span="4">
-		  </el-col>
-		</el-row>
+		  </i-col>
+		  <i-col span="4">
+		    <ModelEditor
+		      :pageName="opModel.name"
+		      :editSoul="editSoul">
+		    </ModelEditor>
+		  </i-col>
+		</Row>
 		
 	</div>
 </template>
@@ -54,8 +62,8 @@
 	export default{
 		data(){
 			return{
-				items:[],
-				titles:[],
+				open: '1',
+				opModel: {},
 				pageSoulId: '',
 			}
 		},
@@ -130,7 +138,7 @@
 			});		
 		},
 		computed: {
-			...mapGetters('dragModule', ['controlClazzes','showCode','soul'])
+			...mapGetters('dragModule', ['editSoul','controlClazzes','showCode','soul'])
 		},
 		methods: {
 			...mapMutations('dragModule', ['setDraggableControls', 'setShowCode']),
