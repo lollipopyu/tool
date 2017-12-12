@@ -14,6 +14,7 @@ export default {
 		showCode:false, //是否展示代码
 		dragElement: null,//current dragging element
 		editSoul: null,
+		rightClickMenu: {},//right click menu when right click the dropped element
 	},
 	getters: {
 		soul: ({soul}) => soul,
@@ -22,8 +23,10 @@ export default {
 		draggableControls: ({draggableControls}) => draggableControls,
 		showCode:({showCode})=>showCode,
 		editSoul: ({editSoul}) => editSoul,
+		rightClickMenu: ({rightClickMenu}) => rightClickMenu,
 		vueCode: ({soul}) => {
 			let data = {},
+			//把soul转化成标准的vue代码
 			prettyCode = pretty(getVueCode(soul))
 
 			return prettyCode
@@ -71,7 +74,22 @@ export default {
 		    return
 		  }
 		  state.editSoul = null
-		}
+		},
+		setRightClickMenu(state, el){
+		  let e = e || window.event;
+		  //x,y of mouse
+		  let oX = e.clientX;
+		  let oY = e.clientY - 20;
+		  //x,y of menu appears
+		  state.rightClickMenu = {
+		    style: {
+		      display: "block",
+		      left: oX + "px",
+		      top: oY + "px"
+		    },
+		    uid: el.controlConfig.uid
+		  }
+		},
 	},
 	actions: {
 	  getControlClazzes({state}){

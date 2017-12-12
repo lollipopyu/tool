@@ -76,9 +76,18 @@
 				:editSoul="editSoul">
 				</ModelEditor>
 			</i-col>
-		</Row>
-		
+		</Row>	
+		<div class="rightClickMenu" :style="rightClickMenu.style">
+		  <Dropdown trigger="custom" visible>
+		    <DropdownMenu slot="list">
+		      <DropdownItem >editScript</DropdownItem>
+		      <DropdownItem >delete</DropdownItem>
+		    </DropdownMenu>
+		  </Dropdown>
+		</div>
+
 	</div>
+	
 </template>
 <script>
 	import {mapGetters, mapMutations, mapActions} from 'vuex'
@@ -167,11 +176,27 @@
 			});		
 		},
 		computed: {
-			...mapGetters('dragModule', ['editSoul','controlClazzes','showCode','soul', 'vueCode'])
+			...mapGetters('dragModule', ['editSoul','controlClazzes','rightClickMenu','showCode','soul', 'vueCode'])
 		},
 		methods: {
 			...mapMutations('dragModule', ['setDraggableControls', 'setShowCode']),
 			...mapActions('dragModule', ['getControlClazzes']),
+			deleteControl(){
+			  this.editControlSoul = findSoulByUidDown(this.rightClickMenu.uid, this.soul)
+			  let pSoul = findSoulByUidDown(this.editControlSoul.pid, this.soul);
+			  if (pSoul) {
+			    let index = pSoul.children.indexOf(this.editControlSoul);
+			    pSoul.children.splice(index, 1)
+			  }
+			  this.clear()
+			  saveSoul()
+			},
+			editControl(){
+			  this.editControlSoul = findSoulByUidDown(this.rightClickMenu.uid, this.soul)
+			  this.editControlSoul.scriptString = this.editControlSoul.script.toString()
+			  this.clear()
+			  this.showEditScriptModal = true
+			},
 			action(a){
 				if (a === '4') {
 					this.setShowCode(true)
@@ -193,3 +218,10 @@
 
 	}
 </script>
+<style scoped>
+	.rightClickMenu {
+	  display: none;
+	  z-index: 10001;
+	  position: fixed;
+	}
+</style>
