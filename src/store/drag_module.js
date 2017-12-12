@@ -2,6 +2,8 @@ import Vue from 'vue'
 import {baseUrl} from '../config/env.js'
 import {findSoulByUidDown} from '../helper/soul_helper'
 import {findElUpward} from '../helper/dom_helper'
+import {getVueCode} from '../helper/code_helper'
+import pretty from 'pretty'
 
 export default {
 	namespaced: true,
@@ -20,6 +22,12 @@ export default {
 		draggableControls: ({draggableControls}) => draggableControls,
 		showCode:({showCode})=>showCode,
 		editSoul: ({editSoul}) => editSoul,
+		vueCode: ({soul}) => {
+			let data = {},
+			prettyCode = pretty(getVueCode(soul))
+
+			return prettyCode
+		}
 	},
 	mutations:{
 		setDraggableControls(state, draggableControls){
@@ -55,9 +63,8 @@ export default {
 		      display: "none",
 		    }
 		  }
-		  console.log('before',e.target)
 		  const el = findElUpward(e.target);
-		  console.log('after',el)
+		  //通过唯一标识符uid找到所点击的组件
 		  const soul = findSoulByUidDown(el.controlConfig.uid, state.soul);
 		  if (soul && soul.model) {
 		    state.editSoul = soul

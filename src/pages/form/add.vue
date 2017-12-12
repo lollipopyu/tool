@@ -1,53 +1,81 @@
 <style lang="scss" scoped>
-	.sideBar{
-		ul{
-			font-size: 0;
-		}
-		ul li{
-			font-size: 12px;
-			display: inline-block;
-			border-radius: 4px;
-			background-color: #dddee1;
-			padding: 2px;
-			margin: 5px 0 0 5px;
-		}
+	// .sideBar{
+	// 	ul{
+	// 		font-size: 0;
+	// 	}
+	// 	ul li{
+	// 		font-size: 12px;
+	// 		display: inline-block;
+	// 		border-radius: 4px;
+	// 		background-color: #dddee1;
+	// 		padding: 2px;
+	// 		margin: 5px 0 0 5px;
+	// 	}
+	// }
+	.action_bar {
+		line-height: 3.5;
+		height: 50px;
+		width: 100%;
+	}
+	.index-layout-nav{
+		width: 800px;
+		margin: 0 auto;
 	}
 </style>
 <template>
 	<div class="add-page">
+		<Menu class="action_bar" @on-select="action" mode="horizontal" theme="dark" active-name="1">
+			<div class="index-layout-nav">
+				<MenuItem name="4">
+					<Icon type="code"></Icon>
+					code
+				</MenuItem>
+				<MenuItem name="5">
+					<Icon type="wrench"></Icon>
+					layout
+				</MenuItem>
+				<MenuItem v-if="!opModel.createBy ||  me.username === opModel.createBy" name="6">
+					<Icon type="document-text"></Icon>
+					save
+				</MenuItem>
+			</div>
+		</Menu>
+
 		<Row>
-		  <i-col span="3">
-		    <transition name="index-soul-control-class-fade">
-		      <div>
-		        <Collapse v-model="open" :key="classIndex" v-for="(controlClass, classIndex) in controlClazzes">
-		          <Panel :name="classIndex+1+''">
-		            {{controlClass.name}}
-		            <p slot="content" class="index-layout-content__class">
-		              <Control
-		                v-for="(control,controlIndex) in controlClass.controls"
-		                :controlConfig="control"
-		                :key="controlIndex">
-		                <div slot="preview">
-		                  <MenuItem
-		                    :name="classIndex + '-' + controlIndex">{{control.name}}
-		                  </MenuItem>
-		                </div>
-		              </Control>
-		            </p>
-		          </Panel>
-		        </Collapse>
-		      </div>
-		    </transition>
-		  </i-col>
-		  <i-col :span="17">
-		  	<RenderDev v-if="!showCode" :soul="soul"></RenderDev>
-		  </i-col>
-		  <i-col span="4">
-		    <ModelEditor
-		      :pageName="opModel.name"
-		      :editSoul="editSoul">
-		    </ModelEditor>
-		  </i-col>
+			<i-col span="3">
+				<transition name="index-soul-control-class-fade">
+				<div>
+					<Collapse v-model="open" :key="classIndex" v-for="(controlClass, classIndex) in controlClazzes">
+						<Panel :name="classIndex+1+''">
+						{{controlClass.name}}
+							<p slot="content" class="index-layout-content__class">
+								<Control
+								v-for="(control,controlIndex) in controlClass.controls"
+								:controlConfig="control"
+								:key="controlIndex">
+									<div slot="preview">
+										<MenuItem
+										:name="classIndex + '-' + controlIndex">{{control.name}}
+										</MenuItem>
+									</div>
+								</Control>
+							</p>
+						</Panel>
+					</Collapse>
+				</div>
+				</transition>
+			</i-col>
+			<i-col :span="17" class="middle" :class="{'is-preview':isPreview}">
+				<RenderDev v-if="!showCode" :soul="soul"></RenderDev>
+				<pre contenteditable="true" v-else v-highlightjs="vueCode" class="code" id="code"><code></code>
+				</pre>
+			</i-col>
+			<i-col span="4">
+				<ModelEditor
+				:pageName="opModel.name"
+				:editSoul="editSoul">
+				</ModelEditor>
+			</i-col>
 		</Row>
 		
 	</div>
@@ -65,6 +93,7 @@
 				open: '1',
 				opModel: {},
 				pageSoulId: '',
+				isPreview: true
 			}
 		},
 		async mounted(){
@@ -138,11 +167,28 @@
 			});		
 		},
 		computed: {
-			...mapGetters('dragModule', ['editSoul','controlClazzes','showCode','soul'])
+			...mapGetters('dragModule', ['editSoul','controlClazzes','showCode','soul', 'vueCode'])
 		},
 		methods: {
 			...mapMutations('dragModule', ['setDraggableControls', 'setShowCode']),
-			...mapActions('dragModule', ['getControlClazzes'])
+			...mapActions('dragModule', ['getControlClazzes']),
+			action(a){
+				if (a === '4') {
+					this.setShowCode(true)
+
+				} else if (a === '5') {
+					this.setShowCode(false)
+
+				} else if (a === '6') {
+					//save changes of page
+					if (!this.opModel.id) {
+					this.showConfirmPageNameModal = true
+					} else {
+					updatePage.call(this)
+					}
+
+				}
+			}
 		},
 
 	}

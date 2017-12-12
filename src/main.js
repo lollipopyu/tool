@@ -13,7 +13,9 @@ import installDirective from "./plugin/install_directive"//don't delete,let vue 
 import './style/index.scss'
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
+import VueHighlightJS from 'vue-highlightjs';
 
+Vue.use(VueHighlightJS)
 Vue.use(VueAxios, axios)
 Vue.use(SoulUi)
 Vue.use(iView);
