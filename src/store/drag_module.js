@@ -90,6 +90,30 @@ export default {
 		    uid: el.controlConfig.uid
 		  }
 		},
+		clear(state,type){
+		  if(type==='layer'){
+		    state.editLayer = {
+		      style: {
+		        display: 'none'
+		      }
+		    }
+		  }else {
+		    state.rightClickMenu = {}
+		  }
+		},
+		setEditLayer(state, bind){
+		  let rect = bind.el.getBoundingClientRect();
+		  state.editLayer = {
+		    style: {
+		      left: rect.left + 'px',
+		      top: rect.top + 'px',
+		      width: rect.width + 'px',
+		      height: rect.height + 'px',
+		      display: 'block'
+		    },
+		    name: bind.binding.value + ':' + bind.el.controlConfig.uid
+		  }
+		}
 	},
 	actions: {
 	  getControlClazzes({state}){

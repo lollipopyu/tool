@@ -76,16 +76,43 @@
 				:editSoul="editSoul">
 				</ModelEditor>
 			</i-col>
-		</Row>	
+		</Row>
+
+		<Modal
+		  :mask-closable="false"
+		  v-model="showConfirmPageNameModal"
+		  title="confirmPageName"
+		  @on-ok="okPageName">
+		  <i-form :label-width="100">
+		    <FormItem label="PageName">
+		      <i-input v-model="opModel.name" @keyup.13.native="okPageName"></i-input>
+		    </FormItem>
+		  </i-form>
+		</Modal>
+
+		<Modal
+		  style="width: 600px"
+		  :mask-closable="false"
+		  v-model="showEditScriptModal"
+		  title="script">
+		  <div slot="footer">
+		  </div>
+		  <CodeEditor
+		    :editorStyle="editorStyle"
+		    :code="editControlSoul.scriptString"
+		    @save="saveCode">
+		  </CodeEditor>
+		</Modal>
+
 		<div class="rightClickMenu" :style="rightClickMenu.style">
 		  <Dropdown trigger="custom" visible>
 		    <DropdownMenu slot="list">
-		      <DropdownItem >editScript</DropdownItem>
-		      <DropdownItem >delete</DropdownItem>
+		      <DropdownItem @click.native="editControl">editScript</DropdownItem>
+		      <DropdownItem @click.native="deleteControl">delete</DropdownItem>
 		    </DropdownMenu>
 		  </Dropdown>
 		</div>
-
+		
 	</div>
 	
 </template>
@@ -95,14 +122,18 @@
 	import {getControlList} from  '@/resource/develop_resource'
 	import {makeControl} from '@/helper/code_helper'
 	import{init, saveSoul}from '@/core/assemble'
-
+	import {findSoulByUidDown} from '@/helper/soul_helper'
 	export default{
 		data(){
 			return{
 				open: '1',
 				opModel: {},
 				pageSoulId: '',
-				isPreview: true
+				isPreview: true,
+				showConfirmPageNameModal: false,
+				showEditScriptModal: false,
+				editControlSoul: {scriptString: ''},
+				editorStyle: {height: '400px'}
 			}
 		},
 		async mounted(){
@@ -179,9 +210,10 @@
 			...mapGetters('dragModule', ['editSoul','controlClazzes','rightClickMenu','showCode','soul', 'vueCode'])
 		},
 		methods: {
-			...mapMutations('dragModule', ['setDraggableControls', 'setShowCode']),
+			...mapMutations('dragModule', ['setDraggableControls', 'setShowCode', 'clear']),
 			...mapActions('dragModule', ['getControlClazzes']),
 			deleteControl(){
+				console.log(1111111)
 			  this.editControlSoul = findSoulByUidDown(this.rightClickMenu.uid, this.soul)
 			  let pSoul = findSoulByUidDown(this.editControlSoul.pid, this.soul);
 			  if (pSoul) {
@@ -196,6 +228,15 @@
 			  this.editControlSoul.scriptString = this.editControlSoul.script.toString()
 			  this.clear()
 			  this.showEditScriptModal = true
+			},
+			saveCode(code){
+			  this.editControlSoul.scriptString = code
+			  this.editControlSoul.script = eval('(function () { \r\n return ' + code + '})()')
+			  this.showEditScriptModal = false
+			  reset(this.editControlSoul)
+			},
+			okPageName(){
+			  // addPage.call(this)
 			},
 			action(a){
 				if (a === '4') {

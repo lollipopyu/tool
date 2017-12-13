@@ -2,13 +2,15 @@
 import {
   	Control,
   	ModelEditor,
-  	RenderDev
+  	RenderDev,
+  	CodeEditor
 } from '../component'
 
 const soul = {
 	Control,
 	ModelEditor,
-  	RenderDev
+  	RenderDev,
+  	CodeEditor
 };
 
 const install = function (Vue, opts = {}) {
