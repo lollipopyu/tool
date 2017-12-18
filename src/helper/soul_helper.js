@@ -2,6 +2,7 @@ import store from '@/store/index'
 
 let uid = 1
 const generateUid = (() => uid++)
+const currentUid = (() => uid)
 
 // 通过cid过滤返回相应的组件
 function findSoulByCid(cid, controls) {
@@ -45,6 +46,14 @@ function walkSoul(soul, fn) {
   })
 }
 
+function refreshInitScript(soul) {
+  if (!soul) return
+  soul.initScript = false
+  for (let i = 0; i < soul.children.length; i++) {
+    refreshInitScript(soul.children[i])
+  }
+}
+
 //返回dropPanel中的children数组中的所有源对象
 function findSoulByUidDown(uid, soul) {
   if (!soul) {
@@ -68,7 +77,9 @@ export {
   generateUid,
   findSoulByCid,
   findSoulByUidDown,
+  currentUid,
   walkSoul,
   getFormItemParams,
-  refs
+  refs,
+  refreshInitScript
 }

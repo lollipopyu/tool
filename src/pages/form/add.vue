@@ -123,12 +123,16 @@
 	import {makeControl} from '@/helper/code_helper'
 	import{init, saveSoul}from '@/core/assemble'
 	import {findSoulByUidDown} from '@/helper/soul_helper'
+	import {
+	  addPage
+	} from '@/resource/assemble_resource'
 	export default{
 		data(){
 			return{
 				open: '1',
 				opModel: {},
 				pageSoulId: '',
+				appId: '',
 				isPreview: true,
 				showConfirmPageNameModal: false,
 				showEditScriptModal: false,
@@ -145,6 +149,14 @@
 			this.pageSoulId = this.$route.query.pageSoulId
 			await this.getControlClazzes();
 			console.log(1111111111)
+
+			this.appId = this.$route.query.appId
+
+			this.axios.get('http://192.168.1.100:7001/show').then(res => {
+			    console.log(res);
+		    }).catch(function(err){
+		        console.log(err);
+		    });
 
 			//call的用法
 			getControlList.call(this,(data) => {
@@ -236,7 +248,7 @@
 			  reset(this.editControlSoul)
 			},
 			okPageName(){
-			  // addPage.call(this)
+			  addPage.call(this)
 			},
 			action(a){
 				if (a === '4') {

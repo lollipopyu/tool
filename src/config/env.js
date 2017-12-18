@@ -8,11 +8,14 @@
 
 let baseUrl = ''; 
 let routerMode = 'history';
+let dev = '';
 
 //baseUrl = "http://rap.taobao.org/mockjsdata/29899/";
 baseUrl = "http://result.eolinker.com/FDlswBa07e0e88bb9157366d195af7972c8af0c738ffea9?uri=";
+dev = "http://localhost:7001/"
 
 export {
 	baseUrl,
-	routerMode
+	routerMode,
+	dev
 }
